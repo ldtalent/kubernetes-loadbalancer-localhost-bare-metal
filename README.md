@@ -80,6 +80,8 @@ kubectl expose deploy nginx --port 80 --type LoadBalancer
 ```  
 
 ## MetalLB
+![service-pending](https://github.com/learningdollars/kubernetes-loadbalancer-localhost-bare-metal/blob/main/images/kind-pending.PNG)  
+
 On bear metal servers, services of type LoadBalancer will remain in pending state. This can be resolved by using [metallb](https://metallb.universe.tf/installation/). Install metallb by manifest according to the docs and setup the Layer2 [configuration](https://metallb.universe.tf/configuration/) or by running:  
 ```
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.4/manifests/namespace.yaml
@@ -97,6 +99,11 @@ Replace the IP range in `metallb/config.yaml` and apply the configMap with
 kubectl apply -f config.yaml
 ```
 
+After successfully installing metallb, the external service will no longer be in a pending state. 
+Note: You may have to delete and recreate the service if it remains in pending state.  
+
+![service-success](https://github.com/learningdollars/kubernetes-loadbalancer-localhost-bare-metal/blob/main/images/kind-ip-loadbalancer.PNG)  
+
 ### Port forward
 ```
 kubectl port-forward service/nginx 5000:80
@@ -104,3 +111,5 @@ kubectl port-forward service/nginx 5000:80
 This will listen on port 5000 and forward port 80 on service ngnix. 
 
 Visit `http://localhost:5000` and the nginx homepage is visible.
+
+![nginx](https://github.com/learningdollars/kubernetes-loadbalancer-localhost-bare-metal/blob/main/images/kind-ngnix.PNG)
