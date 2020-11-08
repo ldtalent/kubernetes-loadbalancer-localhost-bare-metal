@@ -41,7 +41,7 @@ This will print to console an informational message.
 For macOS and windows, install [docker-desktop](https://www.docker.com/products/docker-desktop).
 
 ### Installation on Linux
-We are going to be using [kind](https://github.com/kubernetes-sigs/kind) to create our local kubernetes cluster. You can get kind
+We are going to be using [kind](https://github.com/kubernetes-sigs/kind) to create our local Kubernetes cluster. You can get kind
 ```
 wget https://github.com/kubernetes-sigs/kind/releases/download/v0.9.0/kind-linux-amd64
 ```
@@ -62,7 +62,7 @@ Confirm installation of kind, `which kind` and `kind version`. This will list ki
 brew install kind
 ```
 
-## Create cluster
+## Create a cluster
 ```
 kind create cluster
 ```  
@@ -82,17 +82,17 @@ kubectl expose deploy nginx --port 80 --type LoadBalancer
 ## MetalLB
 ![service-pending](https://github.com/learningdollars/kubernetes-loadbalancer-localhost-bare-metal/blob/main/images/kind-pending.PNG)  
 
-On bare metal servers, services of type LoadBalancer will remain in pending state. This can be resolved by using [metallb](https://metallb.universe.tf/installation/). Install metallb by manifest according to the docs and setup the Layer2 [configuration](https://metallb.universe.tf/configuration/) or by running:  
+On bare metal servers, services of type LoadBalancer will remain in a pending state. This can be resolved by using [metallb](https://metallb.universe.tf/installation/). Install metallb by manifest according to the docs and set up the Layer2 [configuration](https://metallb.universe.tf/configuration/) or by running:  
 ```
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.4/manifests/namespace.yaml
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.4/manifests/metallb.yaml
-# On first install only
+# On the first install only
 kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
 ```
 
 Get usable IP address `kubectl get nodes -o wide` and pay attention to the Internal IP range.  
 
-After taking note of the internal IP range, select a subset of the available IPs that will be used by the services of the LoadBalancer type. For example, the internal IP is in range `172.19.x.x`. Take the range `172.19.255.1-172.19.255.255`. This will be the external IP range for the external facing services of type LoadBalancer.  
+After taking note of the internal IP range, select a subset of the available IPs that will be used by the services of the LoadBalancer type. For example, the internal IP is in range `172.19.x.x`. Take the range `172.19.255.1-172.19.255.255`. This will be the external IP range for the external-facing services of type LoadBalancer.  
 
 Replace the IP range in `metallb/config.yaml` and apply the configMap with  
 ```
