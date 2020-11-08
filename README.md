@@ -82,7 +82,7 @@ kubectl expose deploy nginx --port 80 --type LoadBalancer
 ## MetalLB
 ![service-pending](https://github.com/learningdollars/kubernetes-loadbalancer-localhost-bare-metal/blob/main/images/kind-pending.PNG)  
 
-On bear metal servers, services of type LoadBalancer will remain in pending state. This can be resolved by using [metallb](https://metallb.universe.tf/installation/). Install metallb by manifest according to the docs and setup the Layer2 [configuration](https://metallb.universe.tf/configuration/) or by running:  
+On bare metal servers, services of type LoadBalancer will remain in pending state. This can be resolved by using [metallb](https://metallb.universe.tf/installation/). Install metallb by manifest according to the docs and setup the Layer2 [configuration](https://metallb.universe.tf/configuration/) or by running:  
 ```
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.4/manifests/namespace.yaml
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.4/manifests/metallb.yaml
